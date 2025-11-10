@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Voltura Motors — samochody elektryczne</title>
+  <script type="module" crossorigin src="./assets/index-T3qmq7d-.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Dg-QycVy.css">
+</head>
+<body>
+<header>
+    <nav class="navbar bg-white" aria-label="Główna nawigacja">
+        <div class="container-fluid">
+            <div class="nav-wrapper">
+                <a class="navbar-brand" href="/" aria-label="Strona główna Voltura Motors">
+                    <img src="./assets/images/logo.png" alt="logo" width="41" height="41" class="d-inline-block align-text-top">
+                    <span>Voltura Motors</span>
+                </a>
+                <button type="button" class="btn btn-brand-color-primary">
+                    Zaplanuj jazdę testową
+                </button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="main-wrapper" id="main-content">
+    <section class="hero-wrapper" aria-labelledby="hero-heading">
+        <div class="hero-info-box">
+            <h1 id="hero-heading">Moc spotyka efektywność</h1>
+            <p class="lead">
+                Odkryj nową linię Voltura e-Line – zaprojektowaną z myślą o mieście i długich trasach.
+            </p>
+            <p>
+                Voltura e-Line to zupełnie nowa generacja samochodów elektrycznych, łączących dynamiczne osiągi z wyjątkową energooszczędnością.
+                Zaprojektowana w oparciu o najnowsze technologie, oferuje nie tylko imponujący zasięg, ale też komfort jazdy na najwyższym poziomie.
+                Nowoczesne systemy wspomagania kierowcy sprawiają, że każda podróż staje się bezpieczniejsza i bardziej intuicyjna.
+                Elegancka sylwetka i dopracowane detale nadwozia podkreślają charakter premium marki Voltura.
+            </p>
+            <button type="button" class="btn btn-brand-color-secondary" aria-describedby="hero-heading">
+                Sprawdź szczegóły
+            </button>
+        </div>
+        <!-- Obraz bohatera to element dekoracyjny (layoutowy), więc alt="" -->
+        <img src="./assets/images/hero-image.png" alt="" role="presentation" />
+    </section>
+
+    <section class="car-list-wrapper" aria-labelledby="cars-heading">
+        <h2 id="cars-heading">Gama naszych samochodów</h2>
+
+        <form class="car-filters" aria-labelledby="filters-heading" role="search">
+            <h3 id="filters-heading" class="visually-hidden">Filtry pojazdów</h3>
+
+            <div class="input-box">
+                <label for="filter-type">Typ</label>
+                <select id="filter-type" class="form-select auto-type" aria-label="Typ auta">
+                    <option value="ALL" selected>Wszystkie</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="Compact">Compact</option>
+                </select>
+            </div>
+
+            <div class="input-box">
+                <label for="filter-drive">Napęd</label>
+                <select id="filter-drive" class="form-select auto-drive" aria-label="Napęd">
+                    <option selected value="ALL">Wszystkie</option>
+                </select>
+            </div>
+
+            <div class="input-box">
+                <label for="price-min">Cena</label>
+                <div class="price-wrapper">
+                    <input id="price-min" class="w-100" inputmode="numeric" aria-label="Cena minimalna" type="text" placeholder="od">
+                    <span aria-hidden="true"> - </span>
+                    <input id="price-max" class="w-100" inputmode="numeric" aria-label="Cena maksymalna" type="text" placeholder="do">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-brand-color-primary">Filtruj</button>
+        </form>
+
+        <div data-card-list class="car-card-list" aria-live="polite" aria-busy="false"></div>
+    </section>
+
+    <section class="cta-wrapper" aria-labelledby="cta-heading">
+        <h2 id="cta-heading">Poczuj przyszłość jazdy z Voltura.</h2>
+        <button type="button" class="btn">Umów się na jazdę próbną</button>
+    </section>
+
+    <section class="qa-wrapper" aria-labelledby="faq-heading">
+        <h2 id="faq-heading">Najczęstsze pytania</h2>
+
+        <p>
+            Voltura oferuje rozwiązania flotowe i korporacyjne, które łączą oszczędności z nowoczesnym wizerunkiem.
+            Nasze samochody elektryczne sprawdzają się zarówno w dużych flotach, jak i w małych firmach, dla których liczy się ekonomia, niezawodność i troska o środowisko.
+        </p>
+
+        <div class="accordion" id="accordionQA">
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Jakie korzyści daje flota elektryczna Voltura?
+                    </button>
+                </h3>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                     data-bs-parent="#accordionQA">
+                    <div class="accordion-body">
+                        Niższe koszty eksploatacji, prosta obsługa serwisowa i wizerunek marki dbającej o środowisko.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Czy samochody Voltura sprawdzą się w trasach długodystansowych?
+                    </button>
+                </h3>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                     data-bs-parent="#accordionQA">
+                    <div class="accordion-body">
+                        Samochody Voltura doskonale sprawdzają się w trasach długodystansowych. Ich nowoczesne układy
+                        napędowe zapewniają wysoki zasięg, a zaawansowany system zarządzania energią pozwala utrzymać
+                        optymalną wydajność nawet przy dużych prędkościach. Dodatkowo, komfortowe wnętrze i rozbudowane
+                        systemy wspomagania kierowcy sprawiają, że długie podróże są nie tylko ekonomiczne, ale też
+                        wyjątkowo wygodne i bezpieczne.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Jakie wsparcie serwisowe oferujecie dla flot?
+                    </button>
+                </h3>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                     data-bs-parent="#accordionQA">
+                    <div class="accordion-body">
+                        Dla flot oferujemy kompleksowe wsparcie serwisowe obejmujące pełną obsługę techniczną pojazdów,
+                        priorytetowy dostęp do serwisu oraz stałą opiekę dedykowanego koordynatora. Zapewniamy także
+                        elastyczne pakiety serwisowe dopasowane do potrzeb firmy, bieżące monitorowanie stanu
+                        technicznego pojazdów i szybkie reagowanie w razie awarii, aby flota mogła działać bez
+                        przestojów.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dekoracyjne tło sekcji – brak alternatywy -->
+    <div class="image-box" aria-hidden="true">
+        <h3>Postaw na innowację. Postaw na Voltura.</h3>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-wrapper">
+        <span>© 2025 Voltura Motors</span>
+    </div>
+</footer>
+
+<div class="modal" tabindex="-1" id="carModal" role="dialog" aria-modal="true" aria-labelledby="carModalTitle">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="carModalTitle" class="modal-title">Szczegóły modelu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-wrapper">
+                    <div class="modal-images-box">
+                        <!-- główne zdjęcie jest treściowe, alt uzupełnia JS z JSON -->
+                        <img class="modal-images-box-main" src="./assets/images/hero-image.png" alt="Zdjęcie pojazdu" />
+
+                        <div class="modal-images-grid" aria-label="Galeria miniatur">
+                            <div class="grid-image"></div>
+                            <div class="grid-image"></div>
+                            <div class="grid-image"></div>
+                        </div>
+                    </div>
+
+                    <div class="modal-info-box">
+                        <div class="modal-info-box-options">
+                            <div class="modal-option-box">
+                                <span>Wersja</span>
+                                <div class="version-list" role="listbox" aria-label="Wybierz wersję"></div>
+                            </div>
+
+                            <div class="modal-option-box">
+                                <span>Kolor</span>
+                                <div class="version-color-list" role="listbox" aria-label="Wybierz kolor"></div>
+                            </div>
+
+                            <div class="modal-option-box">
+                                <span>Dodatki</span>
+                                <div class="version-list" role="listbox" aria-label="Wybierz dodatki"></div>
+                            </div>
+
+                            <div class="modal-option-box">
+                                <span>Cena</span>
+                                <span class="car-price">129 999 zł</span>
+                            </div>
+
+                            <button type="button" class="btn btn-brand-color-primary">
+                                Znajdź punkt sprzedaży
+                            </button>
+                        </div>
+
+                        <div class="modal-info-box-details">
+                            <div class="info-box-header">
+                                <span>Kluczowe cechy</span>
+                            </div>
+
+                            <div class="modal-details-row">
+                                <span class="details-label">0–100 km/h</span>
+                                <span class="details-value">5.8 s</span>
+                            </div>
+                            <div class="modal-details-row">
+                                <span class="details-label">Maksymalna prędkość</span>
+                                <span class="details-value">210 km/h</span>
+                            </div>
+                            <div class="modal-details-row">
+                                <span class="details-label">Ładowanie</span>
+                                <span class="details-value">120 kW DC</span>
+                            </div>
+                            <div class="modal-details-row">
+                                <span class="details-label">Pojemność bagażnika</span>
+                                <span class="details-value">520 L</span>
+                            </div>
+                            <div class="modal-details-row">
+                                <span class="details-label">Gwarancja</span>
+                                <span class="details-value">5 lat</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                <button type="button" class="btn btn-primary">Znajdź dealera</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

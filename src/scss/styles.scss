@@ -1,0 +1,43 @@
+/* --- Bootstrap jako moduł --- */
+@use "bootstrap/scss/bootstrap";
+
+/* --- Twoje zmienne kolorów w CSS --- */
+:root {
+  --brand-color-primary:   #28483B;
+  --brand-color-secondary: #123C82;
+  --brand-gray:            #E5E7EB;
+  --brand-dark-gray:       #6B7280;
+  --brand-black-100:       #0B1E40;
+  --brand-black-200:       #1F2937;
+}
+
+.btn-brand-color-primary {
+  background-color: var(--brand-color-primary);
+  color: #fff;
+  border: none;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--brand-color-primary) 85%, black);
+  }
+}
+
+.btn-brand-color-secondary {
+  background-color: var(--brand-color-secondary);
+  color: #fff;
+  border: none;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--brand-color-secondary) 85%, black);
+  }
+}
+
+.text-brand-primary {
+  color: var(--brand-color-primary);
+}
+
+.bg-brand-gray {
+  background-color: var(--brand-gray);
+}
+
+@import "main";
+@import "car-details";
