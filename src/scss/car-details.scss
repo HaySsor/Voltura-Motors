@@ -172,3 +172,25 @@
 .alert{
     margin: 10px auto;
 }
+
+/* Styl dla focusa w wariantach */
+.version-item:focus,
+.color-version:focus {
+  outline: 2px solid var(--brand-color-primary);
+  outline-offset: 2px;
+}
+
+/* Opcjonalnie, by nie nakładał się z hoverem */
+.version-item:focus-visible,
+.color-version:focus-visible {
+  outline: 2px solid var(--brand-color-secondary);
+  outline-offset: 2px;
+}
+
+/* Możesz też całkowicie wyłączyć standardowy focus i dać własny cień */
+.version-item:focus,
+.color-version:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(18, 60, 130, 0.4); // kolor secondary z przezroczystością
+  border-radius: 4px;
+}
