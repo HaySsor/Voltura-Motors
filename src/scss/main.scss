@@ -412,6 +412,7 @@ option[value="1"]{
     border-radius: 12px;
     font-size: 16px;
     font-weight: bold;
+    padding:16px;
     color: var(--brand-dark-200);
     background-color: var(--brand-gray);
     border: 1px solid var(--brand-gray);
@@ -429,5 +430,5 @@ option[value="1"]{
 }
 
 #accordionQA .accordion-body{
-    padding-top: 0;
+    padding: 0 16px 16px 16px;
 }
