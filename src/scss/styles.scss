@@ -11,26 +11,68 @@
   --brand-black-200:       #1F2937;
 }
 
-.btn-brand-color-primary {
-  background-color: var(--brand-color-primary);
-  color: #fff;
-  border: none;
+/* PRIMARY */
+.btn.btn-brand-color-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--brand-color-primary);
+  --bs-btn-border-color: var(--brand-color-primary);
 
-  &:hover {
-    background-color: color-mix(in srgb, var(--brand-color-primary) 85%, black);
-    color: #fff;
-  }
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: color-mix(in srgb, var(--brand-color-primary) 85%, black);
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--brand-color-primary) 85%, black);
+
+  /* kolor obwódki focus (RGB!) */
+  --bs-btn-focus-shadow-rgb: 40, 72, 59;
+
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: color-mix(in srgb, var(--brand-color-primary) 75%, black);
+  --bs-btn-active-border-color: color-mix(in srgb, var(--brand-color-primary) 75%, black);
+
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--brand-color-primary);
+  --bs-btn-disabled-border-color: var(--brand-color-primary);
 }
 
-.btn-brand-color-secondary {
-  background-color: var(--brand-color-secondary);
-  color: #fff;
-  border: none;
+/* SECONDARY */
+.btn.btn-brand-color-secondary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--brand-color-secondary);
+  --bs-btn-border-color: var(--brand-color-secondary);
 
-  &:hover {
-    background-color: color-mix(in srgb, var(--brand-color-secondary) 85%, black);
-    color: #fff;
-  }
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: color-mix(in srgb, var(--brand-color-secondary) 85%, black);
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--brand-color-secondary) 85%, black);
+
+  --bs-btn-focus-shadow-rgb: 18, 60, 130;
+
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: color-mix(in srgb, var(--brand-color-secondary) 75%, black);
+  --bs-btn-active-border-color: color-mix(in srgb, var(--brand-color-secondary) 75%, black);
+
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--brand-color-secondary);
+  --bs-btn-disabled-border-color: var(--brand-color-secondary);
+}
+
+
+.btn-brand-color-primary:focus,
+.btn-brand-color-primary:focus-visible,
+.btn-brand-color-primary:active {
+  background-color: var(--bs-btn-active-bg);
+  color: #fff;
+  border-color: var(--bs-btn-active-border-color);
+  outline: 0;
+  box-shadow: 0 0 0 .25rem rgba(var(--bs-btn-focus-shadow-rgb), .25);
+}
+
+.btn-brand-color-secondary:focus,
+.btn-brand-color-secondary:focus-visible,
+.btn-brand-color-secondary:active {
+  background-color: var(--bs-btn-active-bg);
+  color: #fff;
+  border-color: var(--bs-btn-active-border-color);
+  outline: 0;
+  box-shadow: 0 0 0 .25rem rgba(var(--bs-btn-focus-shadow-rgb), .25);
 }
 
 .text-brand-primary {

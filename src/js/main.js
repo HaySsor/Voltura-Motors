@@ -16,7 +16,7 @@ async function fetchCars(jsonPath = `${import.meta.env.BASE_URL}cars.json`) {
 
 function carCardHTML(car) {
     const firstImg = Array.isArray(car.images) && car.images[0] ? car.images[0] : null
-    const src = firstImg?.src || './assets/images/car.png'
+    const src = firstImg?.src || `${import.meta.env.BASE_URL}assets/images/car.png`
     const alt = firstImg?.alt || car.name
     return `
     <div class="car-card-item">
@@ -71,65 +71,134 @@ function normalizeCarOptions(car) {
 function renderOptionLists(modalEl, car) {
     const { versions, colors, accessories } = normalizeCarOptions(car)
     selectedCar = { id: car.id, model: car.name, version: versions[0], color: colors[0], accessories: [] }
-    const versionWrap = modalEl.querySelectorAll('.modal-option-box .version-list')[0]
-    if (versionWrap) versionWrap.innerHTML = versions.map((v,i)=>`<div class="version-item ${i===0?'active-version':''}" data-version="${v}">${v}</div>`).join('')
-    const colorWrap = modalEl.querySelector('.version-color-list')
-    if (colorWrap) colorWrap.innerHTML = colors.map((c,i)=>`<div class="color-version ${i===0?'color-active-version':''}" data-color-name="${c.name}" data-color-value="${c.value}" style="--version-color:${c.value}"></div>`).join('')
-    const lists = modalEl.querySelectorAll('.modal-option-box .version-list')
-    const accessoriesWrap = lists[1]
-    if (accessoriesWrap) accessoriesWrap.innerHTML = accessories.map(a=>`<div class="version-item" data-accessory="${a}">${a}</div>`).join('')
+
+    const versionsBox = modalEl.querySelector('.modal-option-box .version-list[aria-label="Wybierz wersję"]')
+    const colorsBox   = modalEl.querySelector('.modal-option-box .version-color-list[aria-label="Wybierz kolor"]')
+    const accBox      = modalEl.querySelector('.modal-option-box .version-list[aria-label="Wybierz dodatki"]')
+
+    if (versionsBox) {
+        versionsBox.setAttribute('role','listbox')
+        versionsBox.dataset.selectMode = 'single'
+        versionsBox.dataset.kind = 'version'
+        versionsBox.innerHTML = versions.map((v,i)=>(
+            `<button type="button" class="version-item${i===0?' active-version':''}" 
+               role="option" aria-selected="${i===0?'true':'false'}" 
+               tabindex="${i===0?'0':'-1'}" data-version="${v}">
+         ${v}
+       </button>`
+        )).join('')
+    }
+
+    if (colorsBox) {
+        colorsBox.setAttribute('role','listbox')
+        colorsBox.dataset.selectMode = 'single'
+        colorsBox.dataset.kind = 'color'
+        colorsBox.innerHTML = colors.map((c,i)=>(
+            `<button type="button" class="color-version${i===0?' color-active-version':''}" 
+               role="option" aria-selected="${i===0?'true':'false'}"
+               tabindex="${i===0?'0':'-1'}"
+               aria-label="${c.name}"
+               data-color-name="${c.name}" data-color-value="${c.value}"
+               style="--version-color:${c.value}">
+      </button>`
+        )).join('')
+    }
+
+    if (accBox) {
+        accBox.setAttribute('role','listbox')
+        accBox.setAttribute('aria-multiselectable','true')
+        accBox.dataset.selectMode = 'multi'
+        accBox.dataset.kind = 'accessory'
+        accBox.innerHTML = accessories.map((a,i)=>(
+            `<button type="button" class="version-item" 
+               role="option" aria-selected="false" 
+               tabindex="${i===0?'0':'-1'}" data-accessory="${a}">
+         ${a}
+       </button>`
+        )).join('')
+    }
 }
 
-function saveSelectedCarAndClose(modalEl, logLabel = 'selectedCar') {
+function saveAndClose(modalEl, label) {
     if (!selectedCar) return
     try {
         localStorage.setItem('selectedCar', JSON.stringify(selectedCar))
         const stored = JSON.parse(localStorage.getItem('selectedCar') || 'null')
-        console.log(`Saved to localStorage (${logLabel}):`, stored)
-    } catch (e) {
-        console.error('localStorage error:', e)
-    }
+        console.log(`Saved (${label}):`, stored)
+    } catch (e) { console.error('localStorage error:', e) }
     document.activeElement?.blur()
+    bootstrap.Modal.getOrCreateInstance(modalEl).hide()
 }
 
 function wireOptionHandlers(modalEl) {
     if (optionHandlersAbort) optionHandlersAbort.abort()
     optionHandlersAbort = new AbortController()
     const { signal } = optionHandlersAbort
+
+    const updateRoving = (container, next) => {
+        container.querySelectorAll('[role="option"]').forEach(el=>{ el.tabIndex = -1 })
+        next.tabIndex = 0
+        next.focus()
+    }
+
+    const selectSingle = (container, optionEl) => {
+        container.querySelectorAll('[role="option"]').forEach(el=>{
+            el.setAttribute('aria-selected','false')
+            el.classList.remove('active-version','color-active-version')
+        })
+        optionEl.setAttribute('aria-selected','true')
+        if (container.dataset.kind === 'version') optionEl.classList.add('active-version')
+        if (container.dataset.kind === 'color')   optionEl.classList.add('color-active-version')
+        updateRoving(container, optionEl)
+        if (container.dataset.kind === 'version') selectedCar.version = optionEl.dataset.version
+        else if (container.dataset.kind === 'color') selectedCar.color = { name: optionEl.dataset.colorName, value: optionEl.dataset.colorValue }
+    }
+
+    const toggleMulti = (container, optionEl) => {
+        const name = optionEl.dataset.accessory
+        const isSelected = optionEl.getAttribute('aria-selected') === 'true'
+        optionEl.setAttribute('aria-selected', isSelected ? 'false' : 'true')
+        optionEl.classList.toggle('active-version', !isSelected)
+        if (!selectedCar.accessories) selectedCar.accessories = []
+        if (isSelected) selectedCar.accessories = selectedCar.accessories.filter(x=>x!==name)
+        else selectedCar.accessories.push(name)
+        updateRoving(container, optionEl)
+    }
+
     modalEl.addEventListener('click', (e) => {
-        const verEl = e.target.closest('.version-item[data-version]')
-        if (!verEl) return
-        const list = verEl.parentElement
-        list.querySelectorAll('.version-item').forEach(el=>el.classList.remove('active-version'))
-        verEl.classList.add('active-version')
-        selectedCar.version = verEl.dataset.version
+        const btn = e.target.closest('[role="option"]')
+        if (!btn) return
+        const container = btn.closest('[role="listbox"]')
+        if (!container) return
+        if (container.dataset.selectMode === 'single') selectSingle(container, btn)
+        else toggleMulti(container, btn)
     }, { signal })
-    modalEl.addEventListener('click', (e) => {
-        const colEl = e.target.closest('.color-version[data-color-value]')
-        if (!colEl) return
-        const list = colEl.parentElement
-        list.querySelectorAll('.color-version').forEach(el=>el.classList.remove('color-active-version'))
-        colEl.classList.add('color-active-version')
-        selectedCar.color = { name: colEl.dataset.colorName, value: colEl.dataset.colorValue }
-    }, { signal })
-    modalEl.addEventListener('click', (e) => {
-        const accEl = e.target.closest('.version-item[data-accessory]')
-        if (!accEl) return
-        const name = accEl.dataset.accessory
-        const idx = selectedCar.accessories.indexOf(name)
-        if (idx >= 0) { selectedCar.accessories.splice(idx,1); accEl.classList.remove('active-version') }
-        else { selectedCar.accessories.push(name); accEl.classList.add('active-version') }
+
+    modalEl.addEventListener('keydown', (e) => {
+        const current = e.target.closest('[role="option"]')
+        if (!current) return
+        const container = current.closest('[role="listbox"]')
+        if (!container) return
+        const options = Array.from(container.querySelectorAll('[role="option"]'))
+        const idx = options.indexOf(current)
+        const move = (d) => { const next = options[(idx + d + options.length) % options.length]; updateRoving(container, next) }
+        switch (e.key) {
+            case 'ArrowRight':
+            case 'ArrowDown': e.preventDefault(); move(1); break
+            case 'ArrowLeft':
+            case 'ArrowUp':   e.preventDefault(); move(-1); break
+            case 'Home':      e.preventDefault(); updateRoving(container, options[0]); break
+            case 'End':       e.preventDefault(); updateRoving(container, options[options.length-1]); break
+            case ' ':
+            case 'Enter':     e.preventDefault(); if (container.dataset.selectMode === 'single') selectSingle(container, current); else toggleMulti(container, current); break
+            default: break
+        }
     }, { signal })
 
     const saveBtn = modalEl.querySelector('.modal-footer .btn.btn-primary')
-    saveBtn?.addEventListener('click', () => {
-        saveSelectedCarAndClose(modalEl, 'selectedCar')
-    }, { signal })
-
     const findBtn = modalEl.querySelector('.modal-info-box-options .btn.btn-brand-color-primary')
-    findBtn?.addEventListener('click', () => {
-        saveSelectedCarAndClose(modalEl, 'selectedCar via Find')
-    }, { signal })
+    if (saveBtn) saveBtn.addEventListener('click', () => saveAndClose(modalEl, 'Save'), { signal })
+    if (findBtn) findBtn.addEventListener('click', () => saveAndClose(modalEl, 'Find'), { signal })
 
     modalEl.addEventListener('hidden.bs.modal', () => {
         if (optionHandlersAbort) optionHandlersAbort.abort()
@@ -144,7 +213,7 @@ function populateCarModal(car) {
     if (title) title.textContent = `${car.name} – Szczegóły modelu`
     const images = Array.isArray(car.images) ? car.images.slice(0,3) : []
     const mainImg = modalEl.querySelector('.modal-images-box-main')
-    const first = images[0] || { src: 'assets/images/hero-image.png', alt: car.name }
+    const first = images[0] || { src: `${import.meta.env.BASE_URL}assets/images/hero-image.png`, alt: car.name }
     if (mainImg) { mainImg.src = first.src; mainImg.alt = first.alt || '' }
     const gridHolders = modalEl.querySelectorAll('.modal-images-grid .grid-image')
     gridHolders.forEach((holder,i)=>{
@@ -180,16 +249,12 @@ function parsePriceToNumber(str) {
     return Number(cleaned)
 }
 
-async function renderCars({ jsonPath = './cars.json', containerSelector = '[data-card-list]', data = null } = {}) {
+async function renderCars({ jsonPath = `${import.meta.env.BASE_URL}cars.json`, containerSelector = '[data-card-list]', data = null } = {}) {
     const container = document.querySelector(containerSelector)
     if (!container) throw new Error(`Container ${containerSelector} not found`)
     const cars = data || await fetchCars(jsonPath)
     if (!cars.length) {
-        container.innerHTML = `
-      <div class="alert alert-warning" role="alert">
-        Brak wyników dla wybranych filtrów.
-      </div>
-    `
+        container.innerHTML = `<div class="alert alert-warning" role="alert">Brak wyników dla wybranych filtrów.</div>`
         return
     }
     container.innerHTML = cars.map(carCardHTML).join('')
@@ -205,12 +270,7 @@ function collectFilterValues() {
     const priceInputs = document.querySelectorAll('.car-filters .price-wrapper input')
     const minRaw = parsePriceToNumber(priceInputs?.[0]?.value)
     const maxRaw = parsePriceToNumber(priceInputs?.[1]?.value)
-    return {
-        type,
-        drive,
-        minPrice: Number.isNaN(minRaw) ? null : minRaw,
-        maxPrice: Number.isNaN(maxRaw) ? null : maxRaw
-    }
+    return { type, drive, minPrice: Number.isNaN(minRaw) ? null : minRaw, maxPrice: Number.isNaN(maxRaw) ? null : maxRaw }
 }
 
 function applyFilters(cars, { type, drive, minPrice, maxPrice }) {
