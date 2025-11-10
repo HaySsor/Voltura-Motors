@@ -401,77 +401,33 @@ option[value="1"]{
 
 /*QA*/
 
-/* === Sekcja QA / Accordion === */
-
-#accordionQA .accordion-item {
-  position: relative;
-  margin-bottom: 16px;
-  border-radius: 12px;
-  border: 1px solid var(--brand-gray);
-  background-color: #fff;
-  box-shadow: none;
-  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+#accordionQA .accordion-item{
+    margin-bottom: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--brand-gray);
+    box-shadow: none;
 }
 
 #accordionQA .accordion-button {
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--brand-dark-gray);
-  background-color: var(--brand-gray);
-  border: 1px solid var(--brand-gray);
-  box-shadow: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--brand-dark-200);
+    background-color: var(--brand-gray);
+    border: 1px solid var(--brand-gray);
+}
+#accordionQA .accordion-button:not(.collapsed)  {
+    background-color: white;
+    border: none;
+    box-shadow: none;
+    padding-bottom: 8px;
 }
 
-/* Otwarty przycisk */
-#accordionQA .accordion-button:not(.collapsed) {
-  background-color: #fff;
-  border: none;
-  box-shadow: none;
-  padding-bottom: 8px;
-  color: var(--brand-black-200);
+#accordionQA .accordion-item:has(.accordion-button:not(.collapsed)) {
+    border-color: var(--brand-gray-dark); /* albo dowolny inny kolor */
+    box-shadow: none;
 }
 
-/* Treść */
-#accordionQA .accordion-body {
-  padding-top: 0;
-}
-
-/* Wyłącz natywny obrys focusa na buttonie */
-#accordionQA .accordion-button:focus,
-#accordionQA .accordion-button:focus-visible {
-  outline: none;
-  box-shadow: none;
-}
-
-/* Pseudo-element na cały item – dla halo */
-#accordionQA .accordion-item::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 12px;
-  pointer-events: none;
-  box-shadow: none;
-  transition: box-shadow 0.15s ease;
-}
-
-/* 🔹 Fokus wewnątrz (np. klawiaturą tab) */
-#accordionQA .accordion-item:focus-within::after {
-  box-shadow: 0 0 0 3px rgba(18, 60, 130, 0.35); /* brand secondary halo */
-}
-
-/* 🔹 Otwarty panel */
-#accordionQA .accordion-item:has(.accordion-collapse.show)::after {
-  box-shadow: 0 0 0 3px rgba(18, 60, 130, 0.25);
-}
-
-/* 🔹 Po zamknięciu usuń efekt */
-#accordionQA .accordion-item:not(:has(.accordion-collapse.show)):not(:focus-within)::after {
-  box-shadow: none;
-}
-
-/* (Fallback JS obsłuży starsze przeglądarki bez :has) */
-#accordionQA .accordion-item.is-open::after {
-  box-shadow: 0 0 0 3px rgba(18, 60, 130, 0.25);
+#accordionQA .accordion-body{
+    padding-top: 0;
 }
