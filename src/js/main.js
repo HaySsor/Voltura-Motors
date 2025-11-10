@@ -127,7 +127,6 @@ function saveAndClose(modalEl, label) {
         console.log(`Saved (${label}):`, stored)
     } catch (e) { console.error('localStorage error:', e) }
     document.activeElement?.blur()
-    bootstrap.Modal.getOrCreateInstance(modalEl).hide()
 }
 
 function wireOptionHandlers(modalEl) {
