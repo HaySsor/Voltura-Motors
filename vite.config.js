@@ -1,14 +1,11 @@
-// vite.config.js
-const { defineConfig } = require('vite')
-const { resolve } = require('node:path')
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
 
-module.exports = defineConfig({
+export default defineConfig({
     base: './',
-    root: resolve(process.cwd(), 'src'),
-    publicDir: resolve(process.cwd(), 'public'),
+    root: resolve(__dirname, 'src'),
+    publicDir: resolve(__dirname, 'public'),
     appType: 'mpa',
     server: { port: 8080, hot: true },
-    resolve: {
-        alias: { '~bootstrap': resolve(process.cwd(), 'node_modules/bootstrap') }
-    }
+    resolve: { alias: { '~bootstrap': resolve(__dirname, 'node_modules/bootstrap') } }
 })
